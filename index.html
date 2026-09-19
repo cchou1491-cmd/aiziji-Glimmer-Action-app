@@ -1,4 +1,3 @@
-這就是完整的單一檔案 HTML 程式碼，所有樣式與功能邏輯都包在裡面，直接全部複製即可使用：
 <!DOCTYPE html>
 <html lang="zh-Hant-TW">
 <head>
@@ -449,4 +448,895 @@
       flex-wrap: wrap;
     }
 
-    .light-gly
+    .light-glyph {
+      font-size: 1.25rem;
+    }
+
+    .light-glyph.dimmed {
+      opacity: 0.2;
+      filter: grayscale(1);
+    }
+
+    .working-summary-count {
+      font-size: 0.88rem;
+      color: var(--text-main);
+    }
+
+    .alert-content {
+      margin: auto 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .alert-symbol {
+      font-size: 54px;
+      margin-bottom: 16px;
+      animation: gentle-float 3s ease-in-out infinite;
+    }
+
+    @keyframes gentle-float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-6px); }
+    }
+
+    .alert-title {
+      font-size: 1.55rem;
+      font-weight: 500;
+      margin-bottom: 10px;
+    }
+
+    .alert-desc {
+      font-size: 1.02rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+    }
+
+    .alert-actions,
+    .delay-options-list {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .opt-btn-subtle {
+      background-color: transparent;
+      border: 1px dashed rgba(130, 126, 122, 0.3);
+      color: var(--text-muted);
+      justify-content: center;
+    }
+
+    .task-header {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .task-category {
+      font-size: 0.8rem;
+      letter-spacing: 0.08em;
+      color: var(--accent-glow);
+      background-color: var(--accent-soft);
+      padding: 4px 10px;
+      border-radius: 10px;
+    }
+
+    .task-duration {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+    }
+
+    .task-card {
+      width: 100%;
+      background-color: var(--card-bg);
+      border: 1px solid rgba(130, 126, 122, 0.14);
+      border-radius: var(--radius-card);
+      padding: 32px 18px;
+      margin: auto 0;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.02);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .task-icon {
+      font-size: 44px;
+      margin-bottom: 14px;
+    }
+
+    .task-title {
+      font-size: 1.4rem;
+      font-weight: 500;
+      margin-bottom: 12px;
+    }
+
+    .task-desc {
+      font-size: 1rem;
+      color: var(--text-muted);
+      line-height: 1.8;
+      max-width: 290px;
+    }
+
+    .task-actions {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .success-content {
+      margin: auto 0;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .success-symbol {
+      position: relative;
+      width: 90px;
+      height: 90px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 18px;
+    }
+
+    .success-symbol .icon {
+      font-size: 52px;
+      position: relative;
+      z-index: 2;
+      animation: pop-in 0.45s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .success-symbol .sparkle {
+      position: absolute;
+      top: 0;
+      right: 10px;
+      font-size: 22px;
+      z-index: 3;
+    }
+
+    .light-burst {
+      position: absolute;
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
+      opacity: 0.4;
+      filter: blur(10px);
+    }
+
+    @keyframes pop-in {
+      0% { transform: scale(0.6); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    .success-title {
+      font-size: 1.6rem;
+      font-weight: 500;
+      margin-bottom: 6px;
+    }
+
+    .success-desc {
+      font-size: 1.02rem;
+      color: var(--text-muted);
+      margin-bottom: 24px;
+    }
+
+    .success-lights-box {
+      width: 100%;
+      background-color: var(--card-bg);
+      border: 1px solid rgba(130, 126, 122, 0.12);
+      border-radius: var(--radius-card);
+      padding: 20px 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .success-count-text {
+      font-size: 1rem;
+      font-weight: 500;
+    }
+
+    .success-praise-text {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+    }
+
+    .gentle-toast {
+      position: fixed;
+      bottom: calc(env(safe-area-inset-bottom) + 32px);
+      left: 50%;
+      transform: translateX(-50%) translateY(20px);
+      background-color: var(--btn-bg);
+      color: var(--btn-text);
+      padding: 12px 22px;
+      border-radius: 24px;
+      font-size: 0.92rem;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease, transform 0.3s ease;
+      z-index: 999;
+      width: calc(100% - 48px);
+      max-width: 360px;
+      text-align: center;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.16);
+    }
+
+    .gentle-toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+  </style>
+</head>
+<body>
+  <main class="app-container" id="app">
+    <section class="page page-home active" id="page-home">
+      <div class="glow-symbol" aria-hidden="true">
+        <span class="icon">💡</span>
+        <div class="soft-halo"></div>
+      </div>
+
+      <header class="brand-header">
+        <h1 class="brand-name">愛自脊</h1>
+        <p class="brand-sub">微光生活助手</p>
+      </header>
+
+      <div class="today-summary-card" id="home-today-card" style="display: none;">
+        <p class="summary-card-title">今日微光</p>
+        <div class="lights-track" id="home-lights-track"></div>
+        <p class="summary-card-desc" id="home-summary-text">今天，你讓身體回來了 0 次。</p>
+        <p class="summary-last-log" id="home-last-log"></p>
+      </div>
+
+      <div class="brand-concept" id="home-brand-concept">
+        <p class="quote">「身體不用等到下班，<br>才想起來照顧。」</p>
+        <p class="sub-quote">讓身體回來一下。</p>
+      </div>
+
+      <footer class="action-footer">
+        <button id="btn-start" class="btn-primary" type="button">
+          開始我的微光
+        </button>
+      </footer>
+    </section>
+
+    <section class="page page-quiz" id="page-quiz">
+      <header class="quiz-header">
+        <span class="quiz-step-indicator" id="quiz-step-text">1 / 3</span>
+        <h2 class="quiz-title">先讓我認識你的生活</h2>
+      </header>
+
+      <div class="quiz-body" id="quiz-body">
+        <p class="quiz-question" id="quiz-question-text"></p>
+        <div class="quiz-options" id="quiz-options-container"></div>
+      </div>
+    </section>
+
+    <section class="page page-strategy" id="page-strategy">
+      <div class="strategy-content">
+        <span class="strategy-badge">個人化微光策略</span>
+        <h2 class="strategy-title" id="strategy-title">你比較適合「工作段落型微光」</h2>
+        
+        <div class="strategy-card">
+          <p class="strategy-desc" id="strategy-desc-1">我們不要求你每 30 分鐘起來。</p>
+          <p class="strategy-desc highlight" id="strategy-desc-2">
+            當一個工作段落完成，<br>
+            就讓身體離開原本的位置一下。
+          </p>
+          <p class="strategy-desc" id="strategy-desc-3">
+            每次不用很久，<br>
+            30 秒～3 分鐘就可以。
+          </p>
+        </div>
+      </div>
+
+      <footer class="action-footer">
+        <button id="btn-start-work" class="btn-primary" type="button">
+          開始今天的工作
+        </button>
+      </footer>
+    </section>
+
+    <section class="page page-working" id="page-working">
+      <div class="glow-indicator">
+        <span class="pulse-dot"></span>
+        <span class="working-status-text">工作進行中</span>
+      </div>
+
+      <div class="working-main">
+        <div class="working-icon">💡</div>
+        <p class="next-light-label">下一道微光</p>
+        <p class="next-light-estimate" id="work-time-estimate">約 40 分鐘</p>
+      </div>
+
+      <div class="working-footer">
+        <div class="daily-lights-summary">
+          <p class="summary-label">今日微光</p>
+          <div class="lights-track" id="working-lights-track"></div>
+          <p class="working-summary-count" id="working-summary-count">今天，你讓身體回來了 0 次。</p>
+          <p class="working-last-record" id="working-last-record"></p>
+        </div>
+
+        <button id="btn-toggle-pause" class="btn-secondary" type="button">
+          暫停微光
+        </button>
+        <button id="btn-trigger-test" class="btn-text-link" type="button">
+          ⚡ 快速體驗：測試微光出現
+        </button>
+      </div>
+    </section>
+
+    <section class="page page-alert" id="page-alert">
+      <div class="alert-content">
+        <div class="alert-symbol">💡</div>
+        <h2 class="alert-title">微光出現了</h2>
+        <p class="alert-desc">離開一下，再回來。<br>現在方便嗎？</p>
+      </div>
+
+      <footer class="alert-actions">
+        <button id="btn-alert-now" class="btn-primary" type="button">
+          好，我現在就起來動動
+        </button>
+        <button id="btn-alert-soon" class="btn-card-action" type="button">
+          我快做完了，等會請提醒我
+        </button>
+        <button id="btn-alert-busy" class="btn-card-action btn-subtle" type="button">
+          現在真的很忙，再延一下
+        </button>
+      </footer>
+    </section>
+
+    <section class="page" id="page-finish-options">
+      <header class="quiz-header">
+        <h2 class="quiz-title">先把手邊的事情收個尾</h2>
+        <p class="quiz-question">預計還需要多少時間？時間到我會主動找你。</p>
+      </header>
+
+      <div class="delay-options-list">
+        <button class="opt-btn btn-finish-choice" data-delay="15" type="button">
+          <span>再給我 15 分鐘</span>
+        </button>
+        <button class="opt-btn btn-finish-choice" data-delay="30" type="button">
+          <span>半小時</span>
+        </button>
+      </div>
+    </section>
+
+    <section class="page" id="page-delay-options">
+      <header class="quiz-header">
+        <h2 class="quiz-title">忙碌時先專注眼前</h2>
+        <p class="quiz-question">什麼時候再把微光帶回來？</p>
+      </header>
+
+      <div class="delay-options-list">
+        <button class="opt-btn btn-busy-choice" data-delay="45" type="button">
+          <span>45 分鐘後</span>
+        </button>
+        <button class="opt-btn btn-busy-choice" data-delay="60" type="button">
+          <span>60 分鐘後</span>
+        </button>
+        <button id="btn-dismiss-today" class="opt-btn opt-btn-subtle" type="button">
+          <span>今天先不用</span>
+        </button>
+      </div>
+    </section>
+
+    <section class="page page-task" id="page-task">
+      <header class="task-header">
+        <span class="task-category" id="task-category">微光任務</span>
+        <span class="task-duration" id="task-duration">約 1 分鐘</span>
+      </header>
+
+      <div class="task-card">
+        <div class="task-icon" id="task-icon">💡</div>
+        <h2 class="task-title" id="task-title">練習呼吸</h2>
+        <p class="task-desc" id="task-desc"></p>
+      </div>
+
+      <footer class="task-actions">
+        <button id="btn-complete-task" class="btn-primary" type="button">
+          完成微光
+        </button>
+        <button id="btn-shuffle-task" class="btn-card-action btn-subtle" type="button">
+          換一個微光
+        </button>
+      </footer>
+    </section>
+
+    <section class="page page-success" id="page-success">
+      <div class="success-content">
+        <div class="success-symbol">
+          <span class="sparkle">✨</span>
+          <span class="icon">💡</span>
+          <div class="light-burst"></div>
+        </div>
+
+        <h2 class="success-title">微光已點亮</h2>
+        <p class="success-desc">今天，你讓身體回來了。</p>
+
+        <div class="success-lights-box">
+          <div class="lights-track" id="success-lights-track"></div>
+          <p class="success-count-text" id="success-count-text">今天已點亮 1 顆微光</p>
+          <p class="success-praise-text" id="success-praise-text">有記得自己。</p>
+        </div>
+      </div>
+
+      <footer class="action-footer">
+        <button id="btn-continue-work" class="btn-primary" type="button">
+          繼續工作
+        </button>
+      </footer>
+    </section>
+  </main>
+
+  <div class="gentle-toast" id="gentle-toast"></div>
+
+  <script>
+    const QUIZ_QUESTIONS = [
+      {
+        key: 'workType',
+        question: '你主要在哪裡工作？',
+        options: [
+          { key: 'A', label: '辦公室', value: 'office' },
+          { key: 'B', label: '開車', value: 'driving' },
+          { key: 'C', label: '居家', value: 'home' },
+          { key: 'D', label: '需要走動', value: 'active' },
+          { key: 'E', label: '混合型', value: 'hybrid' }
+        ]
+      },
+      {
+        key: 'forgetReason',
+        question: '你最常為什麼忘記動？',
+        options: [
+          { key: 'A', label: '工作做到一半，不想被打斷', value: 'focus_flow' },
+          { key: 'B', label: '忙完就忘了', value: 'forgot_after_busy' },
+          { key: 'C', label: '一坐下就很久', value: 'long_sitting' },
+          { key: 'D', label: '工作時間不固定', value: 'irregular_time' },
+          { key: 'E', label: '其他', value: 'other' }
+        ]
+      },
+      {
+        key: 'reminderPreference',
+        question: '你希望怎麼收到微光？',
+        options: [
+          { key: 'A', label: '溫柔提醒', value: 'gentle' },
+          { key: 'B', label: '小任務', value: 'micro_task' },
+          { key: 'C', label: '遊戲化', value: 'gamified' },
+          { key: 'D', label: '自己決定', value: 'self_paced' }
+        ]
+      }
+    ];
+
+    const MICRO_TASKS = [
+      {
+        category: '呼吸放鬆',
+        title: '練習呼吸',
+        desc: '放下手邊的事情，輕輕閉上眼。<br>吸氣時感受胸腹自然起伏，吐氣時讓肩膀自然沉下來，慢慢來三次。',
+        duration: '約 1 分鐘',
+        icon: '🍃'
+      },
+      {
+        category: '香氛放鬆',
+        title: '精油嗅吸',
+        desc: '滴一滴喜歡的植物香氣在掌心，<br>雙手輕輕搓溫熱後靠近鼻腔，深深嗅吸三次，讓思緒安靜片刻。',
+        duration: '約 1 分鐘',
+        icon: '🌿'
+      },
+      {
+        category: '眼部舒緩',
+        title: '眼球運動',
+        desc: '視線離開螢幕，頭部保持不動。<br>讓眼球輕柔地看向上、下、左、右，再慢慢順時針畫一個大圓，放鬆眼周緊繃。',
+        duration: '約 1 分鐘',
+        icon: '👁️'
+      },
+      {
+        category: '頭部舒緩',
+        title: '按摩頭部與耳朵',
+        desc: '用指腹輕輕打圈梳過頭皮，<br>再順著捏捏耳垂與耳輪邊緣，把累積在頭部的悶熱感揉散。',
+        duration: '約 1.5 分鐘',
+        icon: '✨'
+      },
+      {
+        category: '生活走動',
+        title: '裝水順便走走',
+        desc: '去裝一杯溫水，<br>走回位子之前，讓步伐放慢，在走廊多繞一個小彎。',
+        duration: '約 1 分鐘',
+        icon: '💧'
+      },
+      {
+        category: '視線轉換',
+        title: '到窗邊站一下',
+        desc: '走到窗邊看看遠方的屋頂或綠樹，<br>讓焦距放遠，雙眼不必再對焦在近處的螢幕上。',
+        duration: '約 1 分鐘',
+        icon: '🪟'
+      },
+      {
+        category: '生活走動',
+        title: '去洗手間讓身體換場',
+        desc: '離開座位走一走，順便洗洗雙手，<br>感受指尖被涼水包覆時帶來的清爽與清醒。',
+        duration: '約 2 分鐘',
+        icon: '🚶'
+      },
+      {
+        category: '日常活動',
+        title: '整理桌面時站著完成',
+        desc: '站起身來，把桌上的紙張與筆擺放整齊。<br>藉由順手的小動作，自然地讓背部展開。',
+        duration: '約 1 分鐘',
+        icon: '📑'
+      },
+      {
+        category: '姿勢轉換',
+        title: '離開椅子一下',
+        desc: '只要站起來就好，不必做複雜動作。<br>感受雙腳踏在地面上的平穩支撐感。',
+        duration: '約 30 秒',
+        icon: '🪑'
+      },
+      {
+        category: '姿勢轉換',
+        title: '換一個工作姿勢',
+        desc: '稍微調整一下坐深，或是把靠墊擺好，<br>讓脊椎自然靠著，不必刻意緊繃。',
+        duration: '約 30 秒',
+        icon: '🌱'
+      },
+      {
+        category: '身體活動',
+        title: '肩膀輕鬆活動',
+        desc: '輕輕吸氣把雙肩帶向耳朵，<br>吐氣時像卸下重擔般自然垂下，重覆兩三次就好。',
+        duration: '約 1 分鐘',
+        icon: '🕊️'
+      },
+      {
+        category: '身體活動',
+        title: '軀幹輕鬆轉動',
+        desc: '雙手自然垂放，上身順著視線左右輕輕轉動，<br>像微風吹過樹梢一樣，自然地帶動腰背伸展。',
+        duration: '約 1 分鐘',
+        icon: '🌀'
+      }
+    ];
+
+    let currentQuestionIndex = 0;
+    const currentProfile = { workType: null, forgetReason: null, reminderPreference: null };
+    let isPaused = false;
+    let countdownTimer = null;
+    let remainingMinutes = 40;
+    let activeTask = null;
+
+    function showGentleToast(message, duration = 3000) {
+      const toast = document.getElementById('gentle-toast');
+      if (!toast) return;
+      toast.textContent = message;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), duration);
+    }
+
+    function switchPage(fromPageId, toPageId) {
+      const fromEl = document.getElementById(fromPageId);
+      const toEl = document.getElementById(toPageId);
+      if (fromEl) fromEl.classList.remove('active');
+      if (toEl) toEl.classList.add('active');
+    }
+
+    function logMicroLightEvent(status, extraData = {}) {
+      const records = JSON.parse(localStorage.getItem('microLightRecords') || '[]');
+      records.push({
+        id: 'ml_' + Date.now(),
+        timestamp: new Date().toISOString(),
+        status,
+        ...extraData
+      });
+      localStorage.setItem('microLightRecords', JSON.stringify(records));
+    }
+
+    function getInitialMinutesByWorkType(workType) {
+      switch (workType) {
+        case 'office': case 'hybrid': return 40;
+        case 'home': return 45;
+        case 'active': return 55;
+        case 'driving': return 60;
+        default: return 40;
+      }
+    }
+
+    function formatClockTime(isoString) {
+      if (!isoString) return '';
+      const date = new Date(isoString);
+      return `${String(date.getHours()).padStart(2, '0')}:${String(date.getMinutes()).padStart(2, '0')}`;
+    }
+
+    function getTodayStatsData() {
+      const today = new Date().toISOString().slice(0, 10);
+      const stats = JSON.parse(localStorage.getItem('dailyStats') || '{}');
+      if (stats.date === today) {
+        return { count: stats.lightCount || 0, tasks: stats.completedTasks || [] };
+      }
+      return { count: 0, tasks: [] };
+    }
+
+    function refreshDailyRecordsUI() {
+      const { count, tasks } = getTodayStatsData();
+      const lastTask = tasks.length > 0 ? tasks[tasks.length - 1] : null;
+
+      const workTrack = document.getElementById('working-lights-track');
+      const workCountText = document.getElementById('working-summary-count');
+      const workLastRecord = document.getElementById('working-last-record');
+
+      if (workTrack) {
+        workTrack.innerHTML = count === 0 ? '<span class="light-glyph dimmed">💡</span>' : '';
+        for (let i = 0; i < count; i++) {
+          workTrack.innerHTML += '<span class="light-glyph">💡</span>';
+        }
+      }
+      if (workCountText) workCountText.textContent = `今天，你讓身體回來了 ${count} 次。`;
+      if (workLastRecord) {
+        if (lastTask) {
+          workLastRecord.textContent = `最近一次：${formatClockTime(lastTask.time)}「${lastTask.title}」`;
+          workLastRecord.style.display = 'inline-block';
+        } else {
+          workLastRecord.style.display = 'none';
+        }
+      }
+
+      const homeCard = document.getElementById('home-today-card');
+      const homeTrack = document.getElementById('home-lights-track');
+      const homeDesc = document.getElementById('home-summary-text');
+      const homeLastLog = document.getElementById('home-last-log');
+      const homeConcept = document.getElementById('home-brand-concept');
+
+      if (count > 0 && homeCard) {
+        homeCard.style.display = 'flex';
+        if (homeConcept) homeConcept.style.display = 'none';
+        homeTrack.innerHTML = '';
+        for (let i = 0; i < count; i++) {
+          homeTrack.innerHTML += '<span class="light-glyph">💡</span>';
+        }
+        homeDesc.textContent = `今天，你讓身體回來了 ${count} 次。`;
+        if (lastTask && homeLastLog) {
+          homeLastLog.textContent = `最近一次：${formatClockTime(lastTask.time)}「${lastTask.title}」`;
+        }
+      }
+    }
+
+    function renderQuestion() {
+      const stepText = document.getElementById('quiz-step-text');
+      const questionText = document.getElementById('quiz-question-text');
+      const optionsContainer = document.getElementById('quiz-options-container');
+
+      const q = QUIZ_QUESTIONS[currentQuestionIndex];
+      stepText.textContent = `${currentQuestionIndex + 1} / ${QUIZ_QUESTIONS.length}`;
+      questionText.textContent = q.question;
+      optionsContainer.innerHTML = '';
+
+      q.options.forEach(opt => {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'opt-btn';
+        btn.innerHTML = `<span><span class="opt-key">${opt.key}.</span>${opt.label}</span>`;
+        btn.addEventListener('click', () => handleAnswer(q.key, opt.value));
+        optionsContainer.appendChild(btn);
+      });
+    }
+
+    function handleAnswer(key, value) {
+      currentProfile[key] = value;
+      if (currentQuestionIndex < QUIZ_QUESTIONS.length - 1) {
+        currentQuestionIndex++;
+        renderQuestion();
+      } else {
+        localStorage.setItem('userProfile', JSON.stringify(currentProfile));
+        showStrategyPage();
+      }
+    }
+
+    function showStrategyPage() {
+      const strategy = generateStrategy(currentProfile);
+      document.getElementById('strategy-title').textContent = strategy.title;
+      document.getElementById('strategy-desc-1').innerHTML = strategy.desc1;
+      document.getElementById('strategy-desc-2').innerHTML = strategy.desc2;
+      switchPage('page-quiz', 'page-strategy');
+    }
+
+    function generateStrategy(profile) {
+      let title = '你比較適合「工作段落型微光」';
+      let desc1 = '我們不要求你每 30 分鐘起來。';
+      let desc2 = '當一個工作段落完成，<br>就讓身體離開原本的位置一下。';
+
+      if (profile.workType === 'driving') {
+        title = '你比較適合「停泊型微光」';
+        desc1 = '在路上請專心駕駛，我們不會在行駛中打擾你。';
+        desc2 = '每當抵達目的地、熄火下車時，<br>順道讓肩膀與下肢舒展放鬆。';
+      } else if (profile.workType === 'active') {
+        title = '你比較適合「靜態校準型微光」';
+        desc1 = '日常已走動很多，不需要再增加步數負擔。';
+        desc2 = '停下腳步喝口水時，<br>找回呼吸的平穩與身體的中心。';
+      } else if (profile.forgetReason === 'focus_flow') {
+        title = '你比較適合「尊重心流型微光」';
+        desc1 = '靈感與工作進行時，不隨意打斷你的節奏。';
+        desc2 = '告一段落時，按下一聲交代，<br>再留 1 分鐘給身體。';
+      }
+      return { title, desc1, desc2 };
+    }
+
+    function enterWorkingMode() {
+      const profile = JSON.parse(localStorage.getItem('userProfile') || '{}');
+      remainingMinutes = getInitialMinutesByWorkType(profile.workType);
+      document.getElementById('work-time-estimate').textContent = `約 ${remainingMinutes} 分鐘`;
+      refreshDailyRecordsUI();
+      startWorkingSchedule();
+    }
+
+    function startWorkingSchedule() {
+      if (countdownTimer) clearInterval(countdownTimer);
+      countdownTimer = setInterval(() => {
+        if (!isPaused && remainingMinutes > 1) {
+          remainingMinutes--;
+          document.getElementById('work-time-estimate').textContent = `約 ${remainingMinutes} 分鐘`;
+        } else if (!isPaused && remainingMinutes <= 1) {
+          clearInterval(countdownTimer);
+          triggerMicroLightAlert();
+        }
+      }, 60000);
+    }
+
+    function triggerMicroLightAlert() {
+      const activeEl = document.querySelector('.page.active');
+      if (activeEl) switchPage(activeEl.id, 'page-alert');
+      logMicroLightEvent('triggered');
+    }
+
+    function scheduleNextLight(minutes, toastMsg, eventStatus = 'delayed') {
+      logMicroLightEvent(eventStatus, { scheduledMinutes: minutes });
+      remainingMinutes = minutes;
+      document.getElementById('work-time-estimate').textContent = `約 ${remainingMinutes} 分鐘`;
+      startWorkingSchedule();
+      showGentleToast(toastMsg);
+    }
+
+    function pickRandomTask() {
+      const randomIndex = Math.floor(Math.random() * MICRO_TASKS.length);
+      activeTask = MICRO_TASKS[randomIndex];
+      document.getElementById('task-category').textContent = activeTask.category;
+      document.getElementById('task-duration').textContent = activeTask.duration;
+      document.getElementById('task-icon').textContent = activeTask.icon;
+      document.getElementById('task-title').textContent = activeTask.title;
+      document.getElementById('task-desc').innerHTML = activeTask.desc;
+    }
+
+    function markTaskCompleted() {
+      const today = new Date().toISOString().slice(0, 10);
+      const now = new Date().toISOString();
+      let dailyStats = JSON.parse(localStorage.getItem('dailyStats') || '{}');
+      if (dailyStats.date !== today) {
+        dailyStats = { date: today, lightCount: 0, completedTasks: [] };
+      }
+
+      const taskTitle = activeTask ? activeTask.title : '日常微光';
+      dailyStats.lightCount += 1;
+      dailyStats.completedTasks.push({ title: taskTitle, time: now });
+      localStorage.setItem('dailyStats', JSON.stringify(dailyStats));
+      logMicroLightEvent('completed', { task: taskTitle, completedAt: now });
+
+      const count = dailyStats.lightCount;
+      const track = document.getElementById('success-lights-track');
+      track.innerHTML = '';
+      for (let i = 0; i < count; i++) {
+        track.innerHTML += '<span class="light-glyph">💡</span>';
+      }
+      document.getElementById('success-count-text').textContent = `今天已點亮 ${count} 顆微光`;
+      document.getElementById('success-praise-text').textContent = 
+        count === 1 ? '有記得自己。' : count <= 3 ? '開始找到自己的節奏。' : '身體慢慢回到生活裡。';
+
+      switchPage('page-task', 'page-success');
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const profile = JSON.parse(localStorage.getItem('userProfile') || 'null');
+      const startBtn = document.getElementById('btn-start');
+
+      if (profile && startBtn) {
+        startBtn.textContent = '回到微光工作';
+      }
+      refreshDailyRecordsUI();
+
+      startBtn.addEventListener('click', () => {
+        if (profile) {
+          switchPage('page-home', 'page-working');
+          enterWorkingMode();
+        } else {
+          switchPage('page-home', 'page-quiz');
+          currentQuestionIndex = 0;
+          renderQuestion();
+        }
+      });
+
+      document.getElementById('btn-start-work').addEventListener('click', () => {
+        switchPage('page-strategy', 'page-working');
+        enterWorkingMode();
+      });
+
+      document.getElementById('btn-toggle-pause').addEventListener('click', function() {
+        isPaused = !isPaused;
+        const statusText = document.querySelector('.working-status-text');
+        const pulseDot = document.querySelector('.pulse-dot');
+        if (isPaused) {
+          this.textContent = '繼續工作微光';
+          statusText.textContent = '微光暫停中';
+          pulseDot.style.animationPlayState = 'paused';
+          pulseDot.style.opacity = '0.3';
+        } else {
+          this.textContent = '暫停微光';
+          statusText.textContent = '工作進行中';
+          pulseDot.style.animationPlayState = 'running';
+        }
+      });
+
+      document.getElementById('btn-trigger-test').addEventListener('click', () => {
+        triggerMicroLightAlert();
+      });
+
+      document.getElementById('btn-alert-now').addEventListener('click', () => {
+        logMicroLightEvent('accepted');
+        pickRandomTask();
+        switchPage('page-alert', 'page-task');
+      });
+
+      document.getElementById('btn-alert-soon').addEventListener('click', () => {
+        switchPage('page-alert', 'page-finish-options');
+      });
+
+      document.querySelectorAll('.btn-finish-choice').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const minutes = parseInt(btn.dataset.delay, 10);
+          switchPage('page-finish-options', 'page-working');
+          scheduleNextLight(minutes, `好，你先收尾，${minutes} 分鐘後我再來找你。`, 'scheduled_finish');
+        });
+      });
+
+      document.getElementById('btn-alert-busy').addEventListener('click', () => {
+        switchPage('page-alert', 'page-delay-options');
+      });
+
+      document.querySelectorAll('.btn-busy-choice').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const minutes = parseInt(btn.dataset.delay, 10);
+          switchPage('page-delay-options', 'page-working');
+          scheduleNextLight(minutes, `好的，${minutes} 分鐘後微光會再亮起。`, 'delayed_busy');
+        });
+      });
+
+      document.getElementById('btn-dismiss-today').addEventListener('click', () => {
+        logMicroLightEvent('dismissed');
+        if (countdownTimer) clearInterval(countdownTimer);
+        isPaused = true;
+        const statusText = document.querySelector('.working-status-text');
+        if (statusText) statusText.textContent = '微光休息中';
+        switchPage('page-delay-options', 'page-working');
+        showGentleToast('好，今天先照顧好眼前的事情。', 3500);
+      });
+
+      document.getElementById('btn-shuffle-task').addEventListener('click', () => {
+        pickRandomTask();
+      });
+
+      document.getElementById('btn-complete-task').addEventListener('click', () => {
+        markTaskCompleted();
+      });
+
+      document.getElementById('btn-continue-work').addEventListener('click', () => {
+        const p = JSON.parse(localStorage.getItem('userProfile') || '{}');
+        remainingMinutes = getInitialMinutesByWorkType(p.workType);
+        document.getElementById('work-time-estimate').textContent = `約 ${remainingMinutes} 分鐘`;
+        refreshDailyRecordsUI();
+        switchPage('page-success', 'page-working');
+        startWorkingSchedule();
+      });
+    });
+  </script>
+</body>
+</html>
+
