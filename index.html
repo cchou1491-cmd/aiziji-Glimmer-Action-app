@@ -1,0 +1,452 @@
+這就是完整的單一檔案 HTML 程式碼，所有樣式與功能邏輯都包在裡面，直接全部複製即可使用：
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>愛自脊｜微光生活助手</title>
+  <meta name="theme-color" content="#FAF8F5">
+  <style>
+    :root {
+      --bg-color: #FAF8F5;
+      --text-main: #3D3A37;
+      --text-muted: #827E7A;
+      --accent-glow: #E39934;
+      --accent-soft: #FFF5E6;
+      --card-bg: #FFFFFF;
+      --btn-bg: #4A4540;
+      --btn-text: #FAF8F5;
+      --btn-active: #383430;
+      --radius-card: 22px;
+      --radius-btn: 28px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      background-color: var(--bg-color);
+      font-family: -apple-system, BlinkMacSystemFont, "PingFang TC", "Hiragino Sans GB", "Microsoft JhengHei", sans-serif;
+      color: var(--text-main);
+      line-height: 1.6;
+      overflow: hidden;
+      touch-action: manipulation;
+    }
+
+    .app-container {
+      width: 100%;
+      max-width: 440px;
+      height: 100%;
+      margin: 0 auto;
+      position: relative;
+      background-color: var(--bg-color);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .page {
+      display: none;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+      text-align: center;
+      padding: calc(env(safe-area-inset-top) + 36px) 24px calc(env(safe-area-inset-bottom) + 32px);
+      transition: opacity 0.22s ease;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .page.active {
+      display: flex;
+      opacity: 1;
+    }
+
+    .btn-primary {
+      width: 100%;
+      min-height: 54px;
+      border: none;
+      border-radius: var(--radius-btn);
+      background-color: var(--btn-bg);
+      color: var(--btn-text);
+      font-size: 1.02rem;
+      letter-spacing: 0.05em;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.1s ease, background-color 0.2s ease;
+      box-shadow: 0 4px 14px rgba(74, 69, 64, 0.08);
+    }
+
+    .btn-primary:active {
+      transform: scale(0.98);
+      background-color: var(--btn-active);
+    }
+
+    .btn-card-action {
+      width: 100%;
+      min-height: 52px;
+      border: 1px solid rgba(130, 126, 122, 0.18);
+      border-radius: var(--radius-btn);
+      background-color: var(--card-bg);
+      color: var(--text-main);
+      font-size: 0.98rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.1s ease, background-color 0.15s ease;
+    }
+
+    .btn-card-action:active {
+      transform: scale(0.98);
+      background-color: #F7F5F0;
+    }
+
+    .btn-secondary {
+      width: 100%;
+      min-height: 48px;
+      border: 1px solid rgba(130, 126, 122, 0.2);
+      border-radius: var(--radius-btn);
+      background-color: transparent;
+      color: var(--text-muted);
+      font-size: 0.92rem;
+      cursor: pointer;
+    }
+
+    .btn-secondary:active {
+      background-color: rgba(130, 126, 122, 0.08);
+      color: var(--text-main);
+    }
+
+    .btn-subtle {
+      background-color: transparent;
+      border-color: transparent;
+      color: var(--text-muted);
+      font-size: 0.92rem;
+    }
+
+    .btn-text-link {
+      background: none;
+      border: none;
+      color: var(--accent-glow);
+      font-size: 0.8rem;
+      letter-spacing: 0.04em;
+      cursor: pointer;
+      padding: 8px 12px;
+    }
+
+    .action-footer {
+      width: 100%;
+    }
+
+    .glow-symbol {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 80px;
+      height: 80px;
+      margin-top: 10px;
+    }
+
+    .glow-symbol .icon {
+      font-size: 40px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .soft-halo {
+      position: absolute;
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      background-color: rgba(227, 153, 52, 0.18);
+      filter: blur(14px);
+      animation: gentle-breath 4s ease-in-out infinite;
+    }
+
+    @keyframes gentle-breath {
+      0%, 100% { transform: scale(0.92); opacity: 0.5; }
+      50% { transform: scale(1.18); opacity: 1; }
+    }
+
+    .brand-header {
+      margin-bottom: 12px;
+    }
+
+    .brand-name {
+      font-size: 1.8rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+    }
+
+    .brand-sub {
+      font-size: 0.92rem;
+      color: var(--text-muted);
+      letter-spacing: 0.12em;
+    }
+
+    .brand-concept {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 12px 0;
+    }
+
+    .brand-concept .quote {
+      font-size: 1.15rem;
+      line-height: 1.8;
+      margin-bottom: 14px;
+    }
+
+    .brand-concept .sub-quote {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+    }
+
+    .today-summary-card {
+      width: 100%;
+      background-color: var(--card-bg);
+      border: 1px solid rgba(130, 126, 122, 0.12);
+      border-radius: var(--radius-card);
+      padding: 20px 16px;
+      margin: 12px 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.02);
+    }
+
+    .summary-card-title {
+      font-size: 0.8rem;
+      letter-spacing: 0.08em;
+      color: var(--accent-glow);
+      font-weight: 500;
+    }
+
+    .summary-card-desc {
+      font-size: 0.98rem;
+      font-weight: 500;
+    }
+
+    .summary-last-log,
+    .working-last-record {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      background-color: #F7F5F0;
+      padding: 4px 12px;
+      border-radius: 12px;
+    }
+
+    .quiz-header {
+      width: 100%;
+      text-align: left;
+    }
+
+    .quiz-step-indicator {
+      font-size: 0.82rem;
+      letter-spacing: 0.08em;
+      color: var(--accent-glow);
+      font-weight: 500;
+      margin-bottom: 4px;
+    }
+
+    .quiz-title {
+      font-size: 1.35rem;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+    }
+
+    .quiz-body {
+      width: 100%;
+      margin: auto 0;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .quiz-question {
+      font-size: 1.05rem;
+      color: var(--text-muted);
+      text-align: left;
+      margin-bottom: 20px;
+    }
+
+    .quiz-options {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .opt-btn {
+      width: 100%;
+      min-height: 52px;
+      padding: 14px 18px;
+      background-color: var(--card-bg);
+      border: 1px solid rgba(130, 126, 122, 0.16);
+      border-radius: 16px;
+      text-align: left;
+      font-size: 0.96rem;
+      color: var(--text-main);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: transform 0.1s ease, background-color 0.15s ease;
+    }
+
+    .opt-btn:active {
+      transform: scale(0.98);
+      background-color: #F5F1EB;
+      border-color: var(--accent-glow);
+    }
+
+    .opt-key {
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      margin-right: 8px;
+    }
+
+    .strategy-content {
+      width: 100%;
+      margin: auto 0;
+      text-align: left;
+    }
+
+    .strategy-badge {
+      display: inline-block;
+      font-size: 0.78rem;
+      letter-spacing: 0.1em;
+      color: #9E6B20;
+      background-color: #FDF3E3;
+      padding: 4px 10px;
+      border-radius: 10px;
+      margin-bottom: 12px;
+    }
+
+    .strategy-title {
+      font-size: 1.35rem;
+      font-weight: 500;
+      letter-spacing: 0.03em;
+      line-height: 1.4;
+      margin-bottom: 20px;
+    }
+
+    .strategy-card {
+      background-color: var(--card-bg);
+      border: 1px solid rgba(130, 126, 122, 0.14);
+      border-radius: var(--radius-card);
+      padding: 24px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .strategy-desc {
+      font-size: 0.98rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+    }
+
+    .strategy-desc.highlight {
+      color: var(--text-main);
+      font-weight: 500;
+    }
+
+    .glow-indicator {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background-color: var(--card-bg);
+      padding: 6px 14px;
+      border-radius: 20px;
+      border: 1px solid rgba(130, 126, 122, 0.12);
+    }
+
+    .pulse-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background-color: var(--accent-glow);
+      box-shadow: 0 0 8px var(--accent-glow);
+      animation: gentle-fade 2.5s infinite ease-in-out;
+    }
+
+    @keyframes gentle-fade {
+      0%, 100% { opacity: 0.35; }
+      50% { opacity: 1; }
+    }
+
+    .working-status-text {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    .working-main {
+      margin: auto 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .working-icon {
+      font-size: 54px;
+      margin-bottom: 20px;
+      filter: drop-shadow(0 6px 12px rgba(227, 153, 52, 0.18));
+    }
+
+    .next-light-label {
+      font-size: 0.92rem;
+      color: var(--text-muted);
+      margin-bottom: 4px;
+    }
+
+    .next-light-estimate {
+      font-size: 1.75rem;
+      font-weight: 500;
+      letter-spacing: 0.02em;
+    }
+
+    .working-footer {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .daily-lights-summary {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .summary-label {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .lights-track {
+      display: flex;
+      gap: 6px;
+      min-height: 28px;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .light-gly
