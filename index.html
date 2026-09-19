@@ -1342,7 +1342,16 @@
         startWorkingSchedule();
       });
     });
-  </script>
+  <script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('./service-worker.js')
+        .then(() => console.log('愛自脊 PWA 已啟用'))
+        .catch(error => console.error('Service Worker 註冊失敗:', error));
+    });
+  }
+</script>
+  
 </body>
 </html>
 
