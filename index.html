@@ -882,7 +882,24 @@
   </main>
 
   <div class="gentle-toast" id="gentle-toast"></div>
+<script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-messaging-compat.js"></script>
 
+  const firebaseConfig = {
+  apiKey: "AIzaSyCvvHCbhe2SUyaVDqeYrpKDieAe3Zn8mI",
+  authDomain: "aiziji-microglow.firebaseapp.com",
+  projectId: "aiziji-microglow",
+  storageBucket: "aiziji-microglow.firebasestorage.app",
+  messagingSenderId: "771651227139",
+  appId: "1:771651227139:web:ab962ddb6e840f6e088836"
+};
+
+firebase.initializeApp(firebaseConfig);
+
+const messaging = firebase.messaging();
+
+const VAPID_KEY =
+  "BDXpU0AInwPRmrKgD_ubUmi5JCNw2Xc4e_slLftDy3RGqKPVGx_hrPKVnJZTYr_iuZ5I47y8bmvAL0k35dLQqW0";
   <script>
     const QUIZ_QUESTIONS = [
       {
@@ -1243,6 +1260,32 @@
     document.addEventListener('DOMContentLoaded', () => {
       const profile = JSON.parse(localStorage.getItem('userProfile') || 'null');
       const startBtn = document.getElementById('btn-start');
+      async function enableMicroLightNotification() {
+  try {
+    const permission = await Notification.requestPermission();
+
+    if (permission !== 'granted') {
+      showGentleToast('你可以稍後再開啟微光提醒。');
+      return;
+    }
+
+    const token = await messaging.getToken({
+      vapidKey: VAPID_KEY,
+      serviceWorkerRegistration:
+        await navigator.serviceWorker.ready
+    });
+
+    if (token) {
+      localStorage.setItem('microLightPushToken', token);
+      console.log('微光通知已啟用');
+      showGentleToast('微光提醒已開啟 ✨');
+    }
+
+  } catch (error) {
+    console.error('微光通知設定失敗:', error);
+    showGentleToast('目前無法開啟通知，請稍後再試。');
+  }
+}
 
       if (profile && startBtn) {
         startBtn.textContent = '回到微光工作';
@@ -1250,6 +1293,9 @@
       refreshDailyRecordsUI();
 
       startBtn.addEventListener('click', () => {
+        
+        enableMicroLightNotification();
+        
         if (profile) {
           switchPage('page-home', 'page-working');
           enterWorkingMode();
