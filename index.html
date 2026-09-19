@@ -1448,8 +1448,10 @@ document.getElementById('btn-skip-today').addEventListener('click', () => {
 
       document.getElementById('btn-continue-work').addEventListener('click', () => {
         const p = JSON.parse(localStorage.getItem('userProfile') || '{}');
-        remainingMinutes = getInitialMinutesByWorkType(p.workType);
+      remainingMinutes = Number(localStorage.getItem('todayLightMinutes')) || 35;
+        
         document.getElementById('work-time-estimate').textContent = `約 ${remainingMinutes} 分鐘`;
+        
         refreshDailyRecordsUI();
         switchPage('page-success', 'page-working');
         startWorkingSchedule();
