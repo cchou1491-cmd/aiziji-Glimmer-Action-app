@@ -34,7 +34,7 @@ messaging.onBackgroundMessage((payload) => {
     notificationOptions
   );
 });
-const CACHE_NAME = 'aiziji-microglow-v2';
+const CACHE_NAME = 'aiziji-microglow-v3';
 
 const FILES_TO_CACHE = [
   './',
