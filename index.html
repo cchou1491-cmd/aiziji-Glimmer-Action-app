@@ -711,7 +711,47 @@
         </button>
       </footer>
     </section>
+<section class="page" id="page-today-mode">
+  <header class="quiz-header">
+    <span class="quiz-step-indicator">今日微光</span>
+    <h2 class="quiz-title">今天，要不要讓微光陪你？</h2>
+  </header>
 
+  <div class="quiz-body">
+    <p class="quiz-question">
+      今天的你，想用什麼節奏提醒自己？
+    </p>
+
+    <div class="quiz-options">
+      <button class="opt-btn btn-today-mode" data-minutes="25" type="button">
+        <span>
+          <strong>🔴 今天有痠痛／不適</strong><br>
+          <small>每 25 分鐘提醒一次</small>
+        </span>
+      </button>
+
+      <button class="opt-btn btn-today-mode" data-minutes="35" type="button">
+        <span>
+          <strong>🟡 一般狀態</strong><br>
+          <small>每 35 分鐘提醒一次</small>
+        </span>
+      </button>
+
+      <button class="opt-btn btn-today-mode" data-minutes="45" type="button">
+        <span>
+          <strong>🟢 今天很忙</strong><br>
+          <small>每 45 分鐘提醒一次</small>
+        </span>
+      </button>
+    </div>
+  </div>
+
+  <footer class="action-footer">
+    <button id="btn-skip-today" class="btn-secondary" type="button">
+      今天先不用
+    </button>
+  </footer>
+</section>
     <section class="page page-quiz" id="page-quiz">
       <header class="quiz-header">
         <span class="quiz-step-indicator" id="quiz-step-text">1 / 3</span>
@@ -1187,12 +1227,14 @@ const VAPID_KEY =
     }
 
     function enterWorkingMode() {
-      const profile = JSON.parse(localStorage.getItem('userProfile') || '{}');
-      remainingMinutes = getInitialMinutesByWorkType(profile.workType);
-      document.getElementById('work-time-estimate').textContent = `約 ${remainingMinutes} 分鐘`;
-      refreshDailyRecordsUI();
-      startWorkingSchedule();
-    }
+  remainingMinutes = Number(localStorage.getItem('todayLightMinutes')) || 35;
+
+  document.getElementById('work-time-estimate').textContent =
+    `約 ${remainingMinutes} 分鐘`;
+
+  refreshDailyRecordsUI();
+  startWorkingSchedule();
+}
 
     function startWorkingSchedule() {
       if (countdownTimer) clearInterval(countdownTimer);
@@ -1294,24 +1336,48 @@ const VAPID_KEY =
       refreshDailyRecordsUI();
 
       startBtn.addEventListener('click', () => {
-        
-        enableMicroLightNotification();
-        
-        if (profile) {
-          switchPage('page-home', 'page-working');
-          enterWorkingMode();
-        } else {
-          switchPage('page-home', 'page-quiz');
-          currentQuestionIndex = 0;
-          renderQuestion();
-        }
-      });
+  enableMicroLightNotification();
 
-      document.getElementById('btn-start-work').addEventListener('click', () => {
-        switchPage('page-strategy', 'page-working');
-        enterWorkingMode();
-      });
+  if (profile) {
+    switchPage('page-home', 'page-today-mode');
+  } else {
+    switchPage('page-home', 'page-quiz');
+    currentQuestionIndex = 0;
+    renderQuestion();
+  }
+});
 
+     document.getElementById('btn-start-work').addEventListener('click', () => {
+  switchPage('page-strategy', 'page-today-mode');
+});
+
+      document.querySelectorAll('.btn-today-mode').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const minutes = Number(btn.dataset.minutes);
+
+    localStorage.setItem('todayLightEnabled', 'true');
+    localStorage.setItem('todayLightMinutes', String(minutes));
+
+    remainingMinutes = minutes;
+
+    switchPage('page-today-mode', 'page-working');
+    enterWorkingMode();
+
+    showGentleToast(`今日微光已開啟｜每 ${minutes} 分鐘提醒一次 ✨`);
+  });
+});
+
+document.getElementById('btn-skip-today').addEventListener('click', () => {
+  localStorage.setItem('todayLightEnabled', 'false');
+
+  if (countdownTimer) {
+    clearInterval(countdownTimer);
+  }
+
+  showGentleToast('今天先不用，照顧好眼前的事情就好。');
+
+  switchPage('page-today-mode', 'page-home');
+});
       document.getElementById('btn-toggle-pause').addEventListener('click', function() {
         isPaused = !isPaused;
         const statusText = document.querySelector('.working-status-text');
