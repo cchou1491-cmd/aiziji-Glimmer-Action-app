@@ -4,7 +4,7 @@ importScripts(
 );
 
 firebase.initializeApp({
-  apiKey: "AIzaSyCvvHCbhe2SUyaVDqeYrpKDieAe3Zn8mI",
+  apiKey: "AIzaSyBQRCpIS-_JrNX_-AIFKNMHFHv3-dO6Vis",
   authDomain: "aiziji-microglow.firebaseapp.com",
   projectId: "aiziji-microglow",
   storageBucket: "aiziji-microglow.firebasestorage.app",
@@ -34,7 +34,7 @@ messaging.onBackgroundMessage((payload) => {
     notificationOptions
   );
 });
-const CACHE_NAME = 'aiziji-microglow-v3';
+const CACHE_NAME = 'aiziji-microglow-v4';
 
 const FILES_TO_CACHE = [
   './',
