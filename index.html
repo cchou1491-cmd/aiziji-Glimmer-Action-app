@@ -712,8 +712,8 @@
         <button id="btn-copy-fcm-token"
                 class="btn-text-link"
                 type="button"
-                style="display:none;">
-          📋 複製通知測試資訊
+                style="display:block;">
+          📋 複製手機通知 Token
         </button>
       </footer>
     </section>
@@ -1358,19 +1358,38 @@ const VAPID_KEY =
       }
       refreshDailyRecordsUI();
 
-      const savedToken = localStorage.getItem('microLightPushToken');
       const copyBtn = document.getElementById('btn-copy-fcm-token');
 
-      if (savedToken && copyBtn) {
+      if (copyBtn) {
         copyBtn.style.display = 'block';
 
         copyBtn.onclick = async () => {
           try {
-            await navigator.clipboard.writeText(savedToken);
+            if (Notification.permission !== 'granted') {
+              const permission = await Notification.requestPermission();
+              if (permission !== 'granted') {
+                showGentleToast('請先允許通知權限。');
+                return;
+              }
+            }
+
+            const token = await messaging.getToken({
+              vapidKey: VAPID_KEY,
+              serviceWorkerRegistration: await navigator.serviceWorker.ready
+            });
+
+            if (!token) {
+              showGentleToast('目前還沒有取得手機通知 Token。');
+              return;
+            }
+
+            localStorage.setItem('microLightPushToken', token);
+            await navigator.clipboard.writeText(token);
+            console.log('目前手機 FCM Token:', token);
             showGentleToast('手機通知 Token 已複製 ✨');
           } catch (error) {
-            console.error('Token 複製失敗:', error);
-            showGentleToast('複製失敗，請再試一次。');
+            console.error('取得或複製 Token 失敗:', error);
+            showGentleToast('取得 Token 失敗，請稍後再試。');
           }
         };
       }
