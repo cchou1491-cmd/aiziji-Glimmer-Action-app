@@ -1250,18 +1250,40 @@ const VAPID_KEY =
   startWorkingSchedule();
 }
 
-    function startWorkingSchedule() {
-      if (countdownTimer) clearInterval(countdownTimer);
-      countdownTimer = setInterval(() => {
-        if (!isPaused && remainingMinutes > 1) {
-          remainingMinutes--;
-          document.getElementById('work-time-estimate').textContent = `約 ${remainingMinutes} 分鐘`;
-        } else if (!isPaused && remainingMinutes <= 1) {
-          clearInterval(countdownTimer);
-          triggerMicroLightAlert();
-        }
-      }, 60000);
+  function startWorkingSchedule() {
+  if (countdownTimer) clearInterval(countdownTimer);
+
+  const todayLightMinutes =
+    Number(localStorage.getItem('todayLightMinutes')) || 35;
+
+  remainingMinutes = todayLightMinutes;
+
+  document.getElementById('work-time-estimate').textContent =
+    `約 ${remainingMinutes} 分鐘`;
+
+  // 正式啟動 Firebase 背景微光
+  startBackgroundMicroLight(todayLightMinutes);
+
+  countdownTimer = setInterval(() => {
+    if (!isPaused && remainingMinutes > 1) {
+      remainingMinutes--;
+
+      document.getElementById('work-time-estimate').textContent =
+        `約 ${remainingMinutes} 分鐘`;
+
+    } else if (!isPaused && remainingMinutes <= 1) {
+      clearInterval(countdownTimer);
+
+      triggerMicroLightAlert();
+
+      // 前景通知後重新開始倒數
+      remainingMinutes = todayLightMinutes;
+
+      document.getElementById('work-time-estimate').textContent =
+        `約 ${remainingMinutes} 分鐘`;
     }
+  }, 60000);
+}
 
     function triggerMicroLightAlert() {
       const activeEl = document.querySelector('.page.active');
@@ -1358,6 +1380,56 @@ const VAPID_KEY =
   } catch (error) {
     console.error('微光通知設定失敗:', error);
     showGentleToast('目前無法開啟通知，請稍後再試。');
+  }
+}
+      async function startBackgroundMicroLight(minutes) {
+  try {
+    const permission = await Notification.requestPermission();
+
+    if (permission !== 'granted') {
+      showGentleToast('請先允許微光通知。');
+      return;
+    }
+
+    const token = await messaging.getToken({
+      vapidKey: VAPID_KEY,
+      serviceWorkerRegistration:
+        await navigator.serviceWorker.ready
+    });
+
+    if (!token) {
+      showGentleToast('目前沒有取得手機通知 Token。');
+      return;
+    }
+
+    localStorage.setItem(
+      'microLightPushToken',
+      token
+    );
+
+    const scheduleDailyMicroLight =
+      functions.httpsCallable(
+        'scheduleDailyMicroLight'
+      );
+
+    await scheduleDailyMicroLight({
+      token: token,
+      minutes: minutes
+    });
+
+    console.log(
+      `正式背景微光已啟動：每 ${minutes} 分鐘`
+    );
+
+  } catch (error) {
+    console.error(
+      '正式背景微光啟動失敗:',
+      error
+    );
+
+    showGentleToast(
+      '背景微光目前無法啟動，請稍後再試。'
+    );
   }
 }
 
@@ -1470,25 +1542,42 @@ const copyBtn = document.getElementById('btn-copy-fcm-token');
   }
 });
 
+      
      document.getElementById('btn-start-work').addEventListener('click', () => {
   switchPage('page-strategy', 'page-today-mode');
 });
+document.querySelectorAll('.btn-today-mode').forEach(btn => {
+  btn.addEventListener('click', async () => {
 
-      document.querySelectorAll('.btn-today-mode').forEach(btn => {
-  btn.addEventListener('click', () => {
     const minutes = Number(btn.dataset.minutes);
 
-    localStorage.setItem('todayLightEnabled', 'true');
-    localStorage.setItem('todayLightMinutes', String(minutes));
+    localStorage.setItem(
+      'todayLightEnabled',
+      'true'
+    );
+
+    localStorage.setItem(
+      'todayLightMinutes',
+      String(minutes)
+    );
 
     remainingMinutes = minutes;
 
-    switchPage('page-today-mode', 'page-working');
+    await startBackgroundMicroLight(minutes);
+
+    switchPage(
+      'page-today-mode',
+      'page-working'
+    );
+
     enterWorkingMode();
 
-    showGentleToast(`今日微光已開啟｜每 ${minutes} 分鐘提醒一次 ✨`);
+    showGentleToast(
+      `今日微光已開啟｜每 ${minutes} 分鐘提醒一次 ✨`
+    );
   });
 });
+     
 
 document.getElementById('btn-skip-today').addEventListener('click', () => {
   localStorage.setItem('todayLightEnabled', 'false');
