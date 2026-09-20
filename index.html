@@ -714,6 +714,11 @@
                 type="button"
                 style="display:block;">
           📋 複製手機通知 Token
+          <button id="btn-test-background"
+        class="btn-text-link"
+        type="button">
+  🧪 測試 1 分鐘背景微光
+</button>
         </button>
       </footer>
     </section>
@@ -930,6 +935,7 @@
   <div class="gentle-toast" id="gentle-toast"></div>
 <script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-messaging-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-functions-compat.js"></script>
 
   <script>
   const firebaseConfig = {
@@ -944,6 +950,7 @@
 firebase.initializeApp(firebaseConfig);
 
 const messaging = firebase.messaging();
+    const functions = firebase.app().functions('asia-east1');
 
 const VAPID_KEY =
   "BDXpU0AInwPRmrKgD_ubUmi5JCNw2Xc4e_slLftDy3RGqKPVGx_hrPKVnJZTYr_iuZ5I47y8bmvAL0k35dLQqW0";
@@ -1329,7 +1336,61 @@ const VAPID_KEY =
       console.log('微光通知已啟用');
 
       const copyBtn = document.getElementById('btn-copy-fcm-token');
+const testBackgroundBtn =
+  document.getElementById('btn-test-background');
 
+if (testBackgroundBtn) {
+  testBackgroundBtn.addEventListener('click', async () => {
+    try {
+      if (Notification.permission !== 'granted') {
+        const permission =
+          await Notification.requestPermission();
+
+        if (permission !== 'granted') {
+          showGentleToast('請先允許通知權限。');
+          return;
+        }
+      }
+
+      const token = await messaging.getToken({
+        vapidKey: VAPID_KEY,
+        serviceWorkerRegistration:
+          await navigator.serviceWorker.ready
+      });
+
+      if (!token) {
+        showGentleToast('目前沒有取得手機通知 Token。');
+        return;
+      }
+
+      localStorage.setItem(
+        'microLightPushToken',
+        token
+      );
+
+      const testMicroLight =
+        functions.httpsCallable('testMicroLight');
+
+      await testMicroLight({
+        token: token
+      });
+
+      showGentleToast(
+        '測試已啟動 ✨ 請把 App 放到背景，約 1 分鐘後查看通知。'
+      );
+
+    } catch (error) {
+      console.error(
+        '背景微光測試失敗:',
+        error
+      );
+
+      showGentleToast(
+        '測試啟動失敗，請查看 Console。'
+      );
+    }
+  });
+}
       if (copyBtn) {
         copyBtn.style.display = 'block';
 
