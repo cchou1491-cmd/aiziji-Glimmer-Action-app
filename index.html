@@ -1337,6 +1337,35 @@ const VAPID_KEY =
       console.log('微光通知已啟用');
 
       const copyBtn = document.getElementById('btn-copy-fcm-token');
+
+      if (copyBtn) {
+        copyBtn.style.display = 'block';
+
+        copyBtn.onclick = async () => {
+          try {
+            await navigator.clipboard.writeText(token);
+            showGentleToast('手機通知 Token 已複製 ✨');
+          } catch (error) {
+            console.error('Token 複製失敗:', error);
+            showGentleToast('複製失敗，請再試一次。');
+          }
+        };
+      }
+
+      showGentleToast('微光提醒已開啟 ✨');
+    }
+
+  } catch (error) {
+    console.error('微光通知設定失敗:', error);
+    showGentleToast('目前無法開啟通知，請稍後再試。');
+  }
+}
+
+      if (profile && startBtn) {
+        startBtn.textContent = '回到微光工作';
+      }
+refreshDailyRecordsUI();
+
 const testBackgroundBtn =
   document.getElementById('btn-test-background');
 
@@ -1392,35 +1421,8 @@ if (testBackgroundBtn) {
     }
   });
 }
-      if (copyBtn) {
-        copyBtn.style.display = 'block';
 
-        copyBtn.onclick = async () => {
-          try {
-            await navigator.clipboard.writeText(token);
-            showGentleToast('手機通知 Token 已複製 ✨');
-          } catch (error) {
-            console.error('Token 複製失敗:', error);
-            showGentleToast('複製失敗，請再試一次。');
-          }
-        };
-      }
-
-      showGentleToast('微光提醒已開啟 ✨');
-    }
-
-  } catch (error) {
-    console.error('微光通知設定失敗:', error);
-    showGentleToast('目前無法開啟通知，請稍後再試。');
-  }
-}
-
-      if (profile && startBtn) {
-        startBtn.textContent = '回到微光工作';
-      }
-      refreshDailyRecordsUI();
-
-      const copyBtn = document.getElementById('btn-copy-fcm-token');
+const copyBtn = document.getElementById('btn-copy-fcm-token');
 
       if (copyBtn) {
         copyBtn.style.display = 'block';
