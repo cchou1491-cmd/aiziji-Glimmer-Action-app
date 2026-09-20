@@ -1427,8 +1427,18 @@ const VAPID_KEY =
       error
     );
 
+    console.error(
+      '錯誤代碼:',
+      error?.code
+    );
+
+    console.error(
+      '錯誤訊息:',
+      error?.message
+    );
+
     showGentleToast(
-      '背景微光目前無法啟動，請稍後再試。'
+      `啟動失敗：${error?.code || error?.message || '未知錯誤'}`
     );
   }
 }
