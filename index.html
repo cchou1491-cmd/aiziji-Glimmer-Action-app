@@ -710,11 +710,11 @@
           開始我的微光
         </button>
         <button id="btn-copy-fcm-token"
-        class="btn-text-link"
-        type="button"
-        style="display:none;">
-  📋 複製通知測試資訊
-</button>
+                class="btn-text-link"
+                type="button"
+                style="display:none;">
+          📋 複製通知測試資訊
+        </button>
       </footer>
     </section>
 <section class="page" id="page-today-mode">
@@ -1324,28 +1324,28 @@ const VAPID_KEY =
         await navigator.serviceWorker.ready
     });
 
-if (token) {
-  localStorage.setItem('microLightPushToken', token);
-  console.log('微光通知已啟用');
+    if (token) {
+      localStorage.setItem('microLightPushToken', token);
+      console.log('微光通知已啟用');
 
-  const copyBtn = document.getElementById('btn-copy-fcm-token');
+      const copyBtn = document.getElementById('btn-copy-fcm-token');
 
-  if (copyBtn) {
-    copyBtn.style.display = 'block';
+      if (copyBtn) {
+        copyBtn.style.display = 'block';
 
-    copyBtn.onclick = async () => {
-      try {
-        await navigator.clipboard.writeText(token);
-        showGentleToast('手機通知 Token 已複製 ✨');
-      } catch (error) {
-        console.error('Token 複製失敗:', error);
-        showGentleToast('複製失敗，請再試一次。');
+        copyBtn.onclick = async () => {
+          try {
+            await navigator.clipboard.writeText(token);
+            showGentleToast('手機通知 Token 已複製 ✨');
+          } catch (error) {
+            console.error('Token 複製失敗:', error);
+            showGentleToast('複製失敗，請再試一次。');
+          }
+        };
       }
-    };
-  }
 
-  showGentleToast('微光提醒已開啟 ✨');
-}
+      showGentleToast('微光提醒已開啟 ✨');
+    }
 
   } catch (error) {
     console.error('微光通知設定失敗:', error);
@@ -1357,22 +1357,23 @@ if (token) {
         startBtn.textContent = '回到微光工作';
       }
       refreshDailyRecordsUI();
+
       const savedToken = localStorage.getItem('microLightPushToken');
-const copyBtn = document.getElementById('btn-copy-fcm-token');
+      const copyBtn = document.getElementById('btn-copy-fcm-token');
 
-if (savedToken && copyBtn) {
-  copyBtn.style.display = 'block';
+      if (savedToken && copyBtn) {
+        copyBtn.style.display = 'block';
 
-  copyBtn.onclick = async () => {
-    try {
-      await navigator.clipboard.writeText(savedToken);
-      showGentleToast('手機通知 Token 已複製 ✨');
-    } catch (error) {
-      console.error('Token 複製失敗:', error);
-      showGentleToast('複製失敗，請再試一次。');
-    }
-  };
-}
+        copyBtn.onclick = async () => {
+          try {
+            await navigator.clipboard.writeText(savedToken);
+            showGentleToast('手機通知 Token 已複製 ✨');
+          } catch (error) {
+            console.error('Token 複製失敗:', error);
+            showGentleToast('複製失敗，請再試一次。');
+          }
+        };
+      }
 
       startBtn.addEventListener('click', () => {
   enableMicroLightNotification();
@@ -1507,4 +1508,3 @@ document.getElementById('btn-skip-today').addEventListener('click', () => {
   
 </body>
 </html>
-
