@@ -14,7 +14,26 @@ firebase.initializeApp({
 
 const messaging = firebase.messaging();
 
-messaging.onBackgroundMessage((payload) => {
+messaging.onBackgroundMessage((payload) => {self.addEventListener('notificationclick', event => {
+  event.notification.close();
+
+  event.waitUntil(
+    clients.matchAll({
+      type: 'window',
+      includeUncontrolled: true
+    }).then(clientList => {
+      for (const client of clientList) {
+        if ('focus' in client) {
+          return client.focus();
+        }
+      }
+
+      if (clients.openWindow) {
+        return clients.openWindow('./');
+      }
+    })
+  );
+});
   const notificationTitle =
     payload.notification?.title || '💡 微光出現了';
 
@@ -34,7 +53,7 @@ messaging.onBackgroundMessage((payload) => {
     notificationOptions
   );
 });
-const CACHE_NAME = 'aiziji-microglow-v4';
+const CACHE_NAME = 'aiziji-microglow-v5';
 
 const FILES_TO_CACHE = [
   './',
